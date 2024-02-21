@@ -1,4 +1,6 @@
 package com.example.githubviewer.ui.screens.search
 
-class SearchUIState {
-}
+data class SearchUIState(
+    var showDialog:Boolean = false,
+    var shouldNavigate:Boolean = false
+)

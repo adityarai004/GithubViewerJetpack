@@ -48,7 +48,6 @@ fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavI
                             Text(text = navItem.label)
                         },
                     )
-
                 }
             }
         }
@@ -62,10 +61,13 @@ fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavI
                 SearchScreen(navController = navController)
             }
             composable(BottomNavItem.Favorites.route) {
-                FavoriteScreen()
+                FavoriteScreen(navController = navController)
             }
-            composable(Routes.Follower.route){
-                Followers(username = "aditya")
+            composable(Routes.Follower.route){navBackStackEntry ->
+                val userId = navBackStackEntry.arguments?.getString("userId")
+                userId?.let{
+                    Followers(navController = navController, username = userId)
+                }
             }
         }
     }

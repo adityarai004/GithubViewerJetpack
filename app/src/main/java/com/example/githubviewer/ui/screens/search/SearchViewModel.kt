@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.example.githubviewer.data.Follower
 import com.example.githubviewer.data.FollowersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,9 +17,13 @@ import com.example.githubviewer.api.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val followersRepository: FollowersRepository) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(SearchUIState())
+    val uiState: StateFlow<SearchUIState> = _uiState
 
     var enteredUserId by mutableStateOf("")
         private set
@@ -27,5 +32,29 @@ class SearchViewModel @Inject constructor(private val followersRepository: Follo
         enteredUserId = username
     }
 
+    fun checkUserIdEmpty(){
+        if (enteredUserId.isEmpty()){
+            _uiState.update { currentState ->
+                currentState.copy(showDialog = true)
+            }
+        }
+        else{
+            _uiState.update { currentState ->
+                currentState.copy(shouldNavigate = true)
+            }
+        }
+    }
 
+    fun dismissDialogBox(){
+        _uiState.update { currentState ->
+            currentState.copy(showDialog = false)
+        }
+    }
+
+    fun dismissShouldNavigate(){
+        _uiState.update { currentState ->
+            currentState.copy(shouldNavigate = false)
+        }
+        enteredUserId = ""
+    }
 }
