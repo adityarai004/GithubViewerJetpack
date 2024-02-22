@@ -25,15 +25,14 @@ class SearchViewModel @Inject constructor(private val followersRepository: Follo
     private val _uiState = MutableStateFlow(SearchUIState())
     val uiState: StateFlow<SearchUIState> = _uiState
 
-    var enteredUserId by mutableStateOf("")
-        private set
-
     fun updateUsernameEntered(username: String){
-        enteredUserId = username
+        _uiState.update { currentState ->
+            currentState.copy(userId = username)
+        }
     }
 
     fun checkUserIdEmpty(){
-        if (enteredUserId.isEmpty()){
+        if (_uiState.value.userId.isEmpty()){
             _uiState.update { currentState ->
                 currentState.copy(showDialog = true)
             }
@@ -55,6 +54,5 @@ class SearchViewModel @Inject constructor(private val followersRepository: Follo
         _uiState.update { currentState ->
             currentState.copy(shouldNavigate = false)
         }
-        enteredUserId = ""
     }
 }

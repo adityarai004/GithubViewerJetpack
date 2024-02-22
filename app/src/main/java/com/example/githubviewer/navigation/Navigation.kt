@@ -3,6 +3,7 @@ package com.example.githubviewer.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,11 +18,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.githubviewer.ui.screens.favorite.FavoriteScreen
-import com.example.githubviewer.ui.screens.followers.Followers
+import com.example.githubviewer.ui.screens.followers.FollowersScreen
 import com.example.githubviewer.ui.screens.search.SearchScreen
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavItem>) {
+fun BottomNavigationBar(scaffoldState: ScaffoldState,navController: NavHostController, items: List<BottomNavItem>) {
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -66,7 +67,7 @@ fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavI
             composable(Routes.Follower.route){navBackStackEntry ->
                 val userId = navBackStackEntry.arguments?.getString("userId")
                 userId?.let{
-                    Followers(navController = navController, username = userId)
+                    FollowersScreen(navController = navController, username = userId)
                 }
             }
         }
