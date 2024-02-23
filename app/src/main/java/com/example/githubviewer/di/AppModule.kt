@@ -1,9 +1,7 @@
 package com.example.githubviewer.di
 
-import com.example.githubviewer.api.APIService
-import com.example.githubviewer.data.FollowersRepository
+import com.example.githubviewer.data.datasource.remote.APIService
 import com.example.githubviewer.ui.screens.followers.FollowersViewModel
-import com.example.githubviewer.ui.screens.search.SearchViewModel
 import com.example.githubviewer.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -40,7 +38,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitService(retrofit: Retrofit):APIService{
+    fun provideRetrofitService(retrofit: Retrofit): APIService {
         return retrofit.create(APIService::class.java)
     }
 

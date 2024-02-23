@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -88,4 +89,9 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    implementation("androidx.compose.runtime:runtime:1.6.2")
+}
+kapt {
+    correctErrorTypes = true
 }
