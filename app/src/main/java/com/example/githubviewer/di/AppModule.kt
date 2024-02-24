@@ -1,8 +1,9 @@
 package com.example.githubviewer.di
 
 import com.example.githubviewer.data.datasource.remote.APIService
-import com.example.githubviewer.ui.screens.followers.FollowersViewModel
-import com.example.githubviewer.utils.Constants.BASE_URL
+import com.example.githubviewer.common.Constants.BASE_URL
+import com.example.githubviewer.data.repository.FollowersRepositoryImpl
+import com.example.githubviewer.domain.repository.FollowersRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,13 +45,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFollowersRepository(apiService: APIService):FollowersRepository{
-        return FollowersRepository(apiService)
-    }
-
-    @Singleton
-    @Provides
-    fun provideFollowersViewModel(followersRepository: FollowersRepository): FollowersViewModel {
-        return FollowersViewModel(followersRepository)
+    fun provideFollowersRepository(apiService: APIService): FollowersRepository {
+        return FollowersRepositoryImpl(apiService)
     }
 }
