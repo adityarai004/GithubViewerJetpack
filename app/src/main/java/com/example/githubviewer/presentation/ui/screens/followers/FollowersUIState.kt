@@ -8,6 +8,6 @@ data class FollowersUIState(
     var page: Int = 1,
     var currentUsername: String = "",
     var followers: List<Follower> = emptyList(),
-    var isLoading: Boolean = false,
+    var isLoading: Boolean = true,
     var error: String?
 )

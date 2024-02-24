@@ -11,28 +11,28 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import retrofit2.Response
 
-//open class BaseRepository {
-//    protected suspend fun <T> getResult(call: suspend () -> Response<T>):Flow<Resource<T>>{
-//        return flow<Resource<T>>{
-//            val response = call()
-//            if (response.isSuccessful){
-//                val body = response.body()
-//                if(body != null) emit(Resource.Success(body))
-//                else{
-//                    val apiError: APIError =
-//                        Gson().fromJson(response.errorBody()?.charStream(),APIError::class.java)
-//                    emit(Resource.Error(apiError.message))
-//                }
-//            } else{
-//                val apiError: APIError =
-//                    Gson().fromJson(response.errorBody()?.charStream(),APIError::class.java)
-//                emit(Resource.Error(apiError.message))
-//            }
-//        }
-//            .catch {
-//                emit(Resource.Error(it.message))
-//            }
-//            .onStart { emit(Resource.Loading()) }
-//            .flowOn(Dispatchers.IO)
-//    }
-//}
+open class BaseRepository {
+    protected suspend fun <T> getResult(call: suspend () -> Response<T>):Flow<Resource<T>>{
+        return flow<Resource<T>>{
+            val response = call()
+            if (response.isSuccessful){
+                val body = response.body()
+                if(body != null) emit(Resource.Success(body))
+                else{
+                    val apiError: APIError =
+                        Gson().fromJson(response.errorBody()?.charStream(),APIError::class.java)
+                    emit(Resource.Error(apiError.message))
+                }
+            } else{
+                val apiError: APIError =
+                    Gson().fromJson(response.errorBody()?.charStream(),APIError::class.java)
+                emit(Resource.Error(apiError.message))
+            }
+        }
+            .catch {
+                emit(Resource.Error(it.message))
+            }
+            .onStart { emit(Resource.Loading()) }
+            .flowOn(Dispatchers.IO)
+    }
+}

@@ -19,10 +19,6 @@ class FollowersViewModel @Inject constructor(
     private val getFollowersUseCase: GetFollowersUseCase,
     savedStateHandle: SavedStateHandle) : ViewModel(){
 
-//    private val _followersList : MutableStateFlow<Resource<List<Follower>>> = MutableStateFlow(
-//        Resource.Loading())
-//    val followersList: StateFlow<Resource<List<Follower>>> = _followersList
-
     private val _uiState: MutableStateFlow<FollowersUIState> = MutableStateFlow(FollowersUIState(
         error = null
     ))
@@ -45,7 +41,7 @@ class FollowersViewModel @Inject constructor(
         }
     }
 
-    fun fetchFollowers(username: String, page: Int){
+    private fun fetchFollowers(username: String, page: Int){
         viewModelScope.launch(Dispatchers.IO) {
             getFollowersUseCase(username,page).collect { result ->
                 when(result){

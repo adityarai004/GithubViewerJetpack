@@ -3,7 +3,6 @@ package com.example.githubviewer.presentation.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -87,7 +86,7 @@ fun GithubViewProfilePicture(
         Image(
             painterResource(id = imageSource as Int),
             contentDescription = "GithubLogo",
-            modifier
+            modifier = modifier
         )
     } else if (imageSource is String) {
         // If image source is a URL

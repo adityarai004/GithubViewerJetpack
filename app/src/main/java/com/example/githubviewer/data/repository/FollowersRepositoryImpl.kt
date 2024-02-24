@@ -98,6 +98,4 @@ class FollowersRepositoryImpl @Inject constructor(private val apiService: APISer
             }
         }
     }
-
-
 }

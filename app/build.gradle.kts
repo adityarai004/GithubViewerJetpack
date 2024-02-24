@@ -91,6 +91,10 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
 
     implementation("androidx.compose.runtime:runtime:1.6.2")
+
+    val paging_version = "3.2.1"
+
+    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
 }
 kapt {
     correctErrorTypes = true

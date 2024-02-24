@@ -1,8 +1,10 @@
 package com.example.githubviewer.presentation.ui.screens.search
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -18,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.githubviewer.R
@@ -47,7 +48,9 @@ fun SearchScreen(
             navController.navigate("followers/${uiState.userId}")
             searchViewModel.dismissShouldNavigate()
         }
-        GithubViewProfilePicture(R.drawable.gh_logo, modifier = Modifier.size(240.dp), isProfilePic = false)
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()){
+            GithubViewProfilePicture(R.drawable.gh_logo, isProfilePic = false, modifier = Modifier.size(240.dp,240.dp))
+        }
         Spacer(modifier = Modifier.padding(top = 40.dp))
         BigTextField(
             enteredUserId = uiState.userId,
@@ -61,10 +64,6 @@ fun SearchScreen(
         )
     }
 }
-
-
-
-
 
 @Composable
 fun CustomDialog(
