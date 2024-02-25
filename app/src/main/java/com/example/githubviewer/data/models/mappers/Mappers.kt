@@ -1,4 +1,4 @@
-package com.example.githubviewer.data.models
+package com.example.githubviewer.data.models.mappers
 
 import com.example.githubviewer.data.models.dto.FollowerDTO
 import com.example.githubviewer.data.models.dto.UserDetailDTO

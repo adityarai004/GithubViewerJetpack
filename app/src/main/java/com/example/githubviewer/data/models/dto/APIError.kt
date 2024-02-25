@@ -1,4 +1,4 @@
-package com.example.githubviewer.data.models
+package com.example.githubviewer.data.models.dto
 
 import androidx.compose.runtime.Stable
 

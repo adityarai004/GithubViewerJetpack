@@ -1,17 +1,13 @@
 package com.example.githubviewer.domain.interactors
 
-import com.example.githubviewer.common.Resource
+import androidx.paging.PagingData
+import com.example.githubviewer.data.repository.source.FollowerPagingFactory
 import com.example.githubviewer.domain.model.Follower
-import com.example.githubviewer.domain.repository.FollowersRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetFollowersUseCase @Inject constructor(private val followersRepository: FollowersRepository) {
-//    suspend operator fun invoke(username: String, page: Int):Resource<List<Follower>>{
-//        return followersRepository.getAllFollowers(username,page = page)
-//    }
-
-    suspend operator fun invoke(username: String, page: Int): Flow<Resource<List<Follower>>> {
-        return followersRepository.getAllFollowersFlow(username,page = page)
+class GetFollowersUseCase @Inject constructor(private val followerPagingFactory: FollowerPagingFactory) {
+    suspend operator fun invoke(username: String): Flow<PagingData<Follower>> {
+        return followerPagingFactory.getFollowers(username)
     }
 }
