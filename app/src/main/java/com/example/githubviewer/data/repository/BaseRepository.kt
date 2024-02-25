@@ -1,7 +1,7 @@
 package com.example.githubviewer.data.repository
 
 import com.example.githubviewer.common.Resource
-import com.example.githubviewer.data.models.APIError
+import com.example.githubviewer.data.models.dto.APIError
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,12 +20,12 @@ open class BaseRepository {
                 if(body != null) emit(Resource.Success(body))
                 else{
                     val apiError: APIError =
-                        Gson().fromJson(response.errorBody()?.charStream(),APIError::class.java)
+                        Gson().fromJson(response.errorBody()?.charStream(), APIError::class.java)
                     emit(Resource.Error(apiError.message))
                 }
             } else{
                 val apiError: APIError =
-                    Gson().fromJson(response.errorBody()?.charStream(),APIError::class.java)
+                    Gson().fromJson(response.errorBody()?.charStream(), APIError::class.java)
                 emit(Resource.Error(apiError.message))
             }
         }

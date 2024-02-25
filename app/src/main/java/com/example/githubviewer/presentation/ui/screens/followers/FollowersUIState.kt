@@ -9,5 +9,4 @@ data class FollowersUIState(
     var currentUsername: String = "",
     var followers: List<Follower> = emptyList(),
     var isLoading: Boolean = true,
-    var error: String?
 )
