@@ -1,4 +1,4 @@
-package com.example.githubviewer.presentation.ui.navigation
+package com.example.githubviewer.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite

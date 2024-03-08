@@ -1,4 +1,4 @@
-package com.example.githubviewer.presentation.ui.components
+package com.example.githubviewer.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -83,9 +83,6 @@ fun BigTextField(
 fun GithubViewProfilePicture(
     imageSource: Any,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    imageRatio: Float = 1f, // Adjust for desired aspect ratio
-    maxHeight: Dp = 120.dp,
     isProfilePic: Boolean
 ) {
 

@@ -1,5 +1,6 @@
 package com.example.githubviewer.presentation.ui.screens.followers
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,7 +24,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
@@ -35,17 +34,15 @@ import androidx.navigation.NavController
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.githubviewer.domain.model.Follower
-import com.example.githubviewer.presentation.ui.components.GHViewSearchBar
-import com.example.githubviewer.presentation.ui.components.GithubViewProfilePicture
+import com.example.githubviewer.presentation.components.GHViewSearchBar
+import com.example.githubviewer.presentation.components.GithubViewProfilePicture
 import kotlinx.coroutines.flow.Flow
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.paging.LoadState
-import com.example.githubviewer.presentation.ui.components.ErrorItem
-import com.example.githubviewer.presentation.ui.components.LoadingItem
-import com.example.githubviewer.presentation.ui.components.LoadingView
+import com.example.githubviewer.presentation.components.ErrorItem
+import com.example.githubviewer.presentation.components.LoadingItem
+import com.example.githubviewer.presentation.components.LoadingView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +52,10 @@ fun FollowersScreen(
     followersViewModel: FollowersViewModel = hiltViewModel()
 ) {
     val uiState by followersViewModel.uiState.collectAsState()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -84,8 +85,25 @@ fun FollowersScreen(
                     )
                 }
             )
+        },
+        ) { paddingValues ->
+
+        if (uiState.selectedUserDetail != null) {
+            ModalBottomSheet(
+                onDismissRequest = { followersViewModel.dismissBottomSheet() },
+                sheetState = sheetState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                if (uiState.selectedUserDetail != null){
+                    UserBottomSheetContent(userDetail = uiState.selectedUserDetail!!)
+                }
+                else{
+                    Text(text = "Something went wrong")
+                }
+            }
         }
-    ) { paddingValues ->
         Column(
             Modifier.padding(paddingValues)
         ) {
@@ -102,26 +120,33 @@ fun FollowersScreen(
                 }
             )
             SpanLazyVerticalGrid(
+                modifier = Modifier.padding(16.dp),
                 cols = 3,
                 itemsList = followersViewModel.followers,
-                lazyGridState = rememberLazyGridState()
+                lazyGridState = rememberLazyGridState(),
+                onItemClick = {
+                    followersViewModel.getUserInfo(it)
+                }
             )
-
         }
     }
 }
 
 @Composable
 fun SpanLazyVerticalGrid(
+    modifier: Modifier = Modifier,
     cols: Int,
     itemsList: Flow<PagingData<Follower>>,
-    lazyGridState: LazyGridState
+    lazyGridState: LazyGridState,
+    onItemClick: (String) -> Unit
 ) {
     val lazyFollowerItem = itemsList.collectAsLazyPagingItems()
 
-    LazyVerticalGrid(columns = GridCells.Fixed(cols), state = lazyGridState) {
+    LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(cols), state = lazyGridState) {
         items(lazyFollowerItem.itemCount) {
-            FollowerListItem(follower = lazyFollowerItem[it]!!)
+            FollowerListItem(follower = lazyFollowerItem[it]!!, onClick = { selectedUserName ->
+                onItemClick(selectedUserName)
+            })
         }
 
         lazyFollowerItem.apply {
@@ -158,10 +183,11 @@ fun SpanLazyVerticalGrid(
 }
 
 @Composable
-fun FollowerListItem(follower: Follower) {
+fun FollowerListItem(follower: Follower, onClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .wrapContentHeight()
+            .clickable { onClick(follower.login) },
     ) {
         GithubViewProfilePicture(
             imageSource = follower.avatarUrl,
@@ -169,7 +195,8 @@ fun FollowerListItem(follower: Follower) {
             modifier = Modifier
                 .aspectRatio(1f) // Adjust aspect ratio if desired
                 .fillMaxWidth()
-                .clip(CircleShape) // Optional: Make image circular
+                .clip(CircleShape)
+            // Optional: Make image circular
         )
 
         Spacer(modifier = Modifier.padding(top = 8.dp))
@@ -180,5 +207,4 @@ fun FollowerListItem(follower: Follower) {
             modifier = Modifier.fillMaxWidth()
         )
     }
-
 }

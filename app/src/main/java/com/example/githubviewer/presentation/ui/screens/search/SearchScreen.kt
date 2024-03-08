@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.githubviewer.R
-import com.example.githubviewer.presentation.ui.components.BigTextField
-import com.example.githubviewer.presentation.ui.components.GithubViewProfilePicture
+import com.example.githubviewer.presentation.components.BigTextField
+import com.example.githubviewer.presentation.components.GithubViewProfilePicture
 
 @Composable
 fun SearchScreen(

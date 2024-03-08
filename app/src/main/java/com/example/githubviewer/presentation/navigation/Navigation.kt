@@ -1,4 +1,4 @@
-package com.example.githubviewer.presentation.ui.navigation
+package com.example.githubviewer.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon

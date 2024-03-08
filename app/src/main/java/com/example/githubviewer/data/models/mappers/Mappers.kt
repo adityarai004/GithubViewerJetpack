@@ -22,7 +22,7 @@ fun UserDetailDTO.toUserDetail(): UserDetail {
     return UserDetail(
         avatarUrl,
         bio,
-        outputFormat.format(date),
+        outputFormat.format(date!!),
         followers,
         following,
         htmlUrl,

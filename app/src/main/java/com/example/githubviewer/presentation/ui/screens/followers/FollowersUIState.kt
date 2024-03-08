@@ -1,6 +1,7 @@
 package com.example.githubviewer.presentation.ui.screens.followers
 
 import com.example.githubviewer.domain.model.Follower
+import com.example.githubviewer.domain.model.UserDetail
 
 data class FollowersUIState(
     var query: String = "",
@@ -9,4 +10,7 @@ data class FollowersUIState(
     var currentUsername: String = "",
     var followers: List<Follower> = emptyList(),
     var isLoading: Boolean = true,
+    var showBottomSheet: Boolean = false,
+    var selectedUserName: String = "",
+    var selectedUserDetail: UserDetail? = null
 )
